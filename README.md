@@ -5,7 +5,7 @@
 
 ⚡️ Blazing fast scrolling for any amount of data (based on : [Akryum/vue-virtual-scroller](https://github.com/Akryum/vue-virtual-scroller))
 
-![normal](https://raw.githubusercontent.com/skayi/vue-virtual-selector/master/img/normal.jpg)![actived](https://raw.githubusercontent.com/skayi/vue-virtual-selector/master/img/actived.jpg)
+![normal](https://raw.githubusercontent.com/skayi/vue-virtual-selector/master/img/normal-and-actived.jpg)
 
 # Installation
 
