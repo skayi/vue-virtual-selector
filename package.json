@@ -1,0 +1,38 @@
+{
+  "name": "vue-virtual-selector",
+  "version": "1.0.4",
+  "description": "Blazing fast scrolling for any amount of data (based on : Akryum/vue-virtual-scroller)",
+  "main": "index.js",
+  "scripts": {
+    "rollupbuild": "rollup --config",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skayi/vue-virtual-selector.git"
+  },
+  "keywords": [
+    "vue",
+    "vuejs",
+    "virtual",
+    "selector",
+    "plugin"
+  ],
+  "author": "kwange",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/skayi/vue-virtual-selector/issues"
+  },
+  "homepage": "https://github.com/skayi/vue-virtual-selector#readme",
+  "dependencies": {
+    "vue": "^2.6.13",
+    "vue-virtual-scroller": "^1.0.10"
+  },
+  "devDependencies": {
+    "rollup": "^2.51.0",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-vue": "^5.1.9",
+    "vue-template-compiler": "^2.6.13"
+  }
+}
