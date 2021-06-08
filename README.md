@@ -30,8 +30,8 @@ Basic usage
 
 ```javascript
 <VirtualSelector
-	:list="list"
-	:option="listOption">
+  :list="list"
+  :option="listOption">
 </VirtualSelector>
 ```
 
@@ -39,8 +39,8 @@ or
 
 ```javascript
 <virtual-selector
-	:list="list"
-	:option="listOption">
+  :list="list"
+  :option="listOption">
 </virtual-selector>
 ```
 
@@ -48,38 +48,42 @@ using all props, events and loading slot
 
 ```javascript
 <virtual-selector
-	:loading="loading"
-	label="virtual selector"
-	placeholder="please select"
-	:list="list"
-	:option="listOption"
-	@search="handleSearch"
-	@select="handleSelect">
-	<div>loading...</div>
+  :loading="loading"
+  label="virtual selector"
+  placeholder="please select"
+  :list="list"
+  :option="listOption"
+  @focus="handleFocus"
+  @search="handleSearch"
+  @select="handleSelect">
+  <div>loading...</div>
 </virtual-selector>
 . . .
 <script>
 export default {
-	data() {
-		return {
-			loading: false,
-			list: [],
-			listOption: {
-				itemNameKey: "name",
-				itemValueKey: "value",
-				itemPageSize: 8,
-				itemGap: 5,
-			},
-		};
-	},
-	methods: {
-		handleSearch(query) {
-			console.log("search : ", query);
-		},
-		handleSelect(item) {
-			console.log("select : ", item);
-		},
-	},
+  data() {
+    return {
+      loading: false,
+      list: [],
+      listOption: {
+        itemNameKey: "name",
+        itemValueKey: "value",
+        itemPageSize: 8,
+        itemGap: 5,
+      },
+    };
+  },
+  methods: {
+    handleFocus(message) {
+      console.log("focus : ", message);
+    },
+    handleSearch(message) {
+      console.log("search : ", message);
+    },
+    handleSelect(message) {
+      console.log("select : ", message);
+    },
+  },
 }
 </script>
 ```
@@ -119,6 +123,7 @@ In this example, "itemNameKey" of "listOption" is "name", "itemValueKey" of "lis
 
 ## Events
 
+- `focus` : emitted when the input focused.
 - `search` : emitted when the input changed.
 - `select` : emitted when the dropdown item is selected.
 

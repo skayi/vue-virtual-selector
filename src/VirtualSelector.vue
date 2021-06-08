@@ -1,15 +1,14 @@
 <template>
   <div class="virtual-selector"
-       :id="`virtual-selector-${id}`">
+       :id="vsId">
     <span class="virtual-selector__label"
           :class="{none: !label}">{{ label }}</span>
-    <div class="virtual-selector__input-wrapper"
-         :class="{ 'virtual-selector__input-wrapper--active': focused }">
+    <div class="virtual-selector__input-wrapper">
       <input class="virtual-selector__input"
              :placeholder="placeholder"
              v-model="selected[option.itemNameKey]"
              @keyup="handleKeyup"
-             @focus="handleFocus" />
+             @focus="handleFocus($event)" />
       <i class="virtual-selector__arrow">
         <svg viewBox="64 64 896 896"
              data-icon="down"
@@ -49,6 +48,10 @@
 <script>
 import { debounce } from "./util";
 
+const defaultItemPageSize = 8;
+const defaultItemGap = 0;
+const dropdownActiveClassName = "virtual-selector__input-wrapper--active";
+
 export default {
   name: "VirtualSelector",
   props: {
@@ -83,9 +86,13 @@ export default {
       id: new Date().getTime(),
       flist: [],
       selected: {},
-      focused: false,
-      itemSize: 32 + (this.option && this.option.itemGap) || 0,
+      itemSize: 32 + ((this.option && this.option.itemGap) || defaultItemGap),
     };
+  },
+  computed: {
+    vsId() {
+      return `virtual-selector-${this.id}`;
+    },
   },
   watch: {
     list: {
@@ -113,9 +120,11 @@ export default {
 
       this.$nextTick(() => {
         document
-          .getElementById(`virtual-selector-${this.id}`)
+          .getElementById(this.vsId)
           .querySelector(".virtual-selector__scroller").style.maxHeight =
-          this.option.itemPageSize * this.itemSize + 4 + "px";
+          (this.option.itemPageSize || defaultItemPageSize) * this.itemSize +
+          4 +
+          "px";
       });
     },
     mount() {
@@ -144,23 +153,37 @@ export default {
         });
       }
 
-      this.$emit("search", input);
-    }, 200),
-    handleFocus() {
-      this.focused = true;
+      this.$emit("search", {
+        id: this.vsId,
+        input,
+      });
+    }, 300),
+    handleFocus(e) {
+      e.target.offsetParent.classList.toggle(dropdownActiveClassName);
+
+      this.$emit("focus", {
+        id: this.vsId,
+        event: e,
+      });
     },
     handleSelect(item) {
       this.selected = { ...item };
 
-      this.$emit("select", this.selected);
+      this.$emit("select", {
+        id: this.vsId,
+        select: this.selected,
+      });
     },
     handleGlobalClick(e) {
-      if (e.target.className === "virtual-selector__input") {
-        this.focused = true;
-        return;
-      }
+      if (e.target.className === "virtual-selector__input") return;
 
-      this.focused = false;
+      Array.from(document.querySelectorAll(".virtual-selector")).forEach(
+        (el) => {
+          el.querySelector(".virtual-selector__input-wrapper").classList.remove(
+            dropdownActiveClassName
+          );
+        }
+      );
     },
   },
   mounted: function () {
