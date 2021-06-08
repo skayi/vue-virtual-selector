@@ -7,6 +7,8 @@
 
 ![normal](https://raw.githubusercontent.com/skayi/vue-virtual-selector/master/img/normal-and-actived.jpg)
 
+Demo : <a href="https://codesandbox.io/s/vue-virtual-selector-60sds" target="_blank">Select PK</a>
+
 # Installation
 
 ```
