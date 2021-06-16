@@ -1,43 +1,57 @@
 <template>
-  <div class="virtual-selector"
-       :id="vsId">
-    <span class="virtual-selector__label"
-          :class="{none: !label}">{{ label }}</span>
+  <div
+    class="virtual-selector"
+    :id="vsId"
+  >
+    <span
+      class="virtual-selector__label"
+      :class="{none: !label}"
+    >{{ label }}</span>
     <div class="virtual-selector__input-wrapper">
-      <input class="virtual-selector__input"
-             :placeholder="placeholder"
-             v-model="selected[option.itemNameKey]"
-             @keyup="handleKeyup"
-             @focus="handleFocus($event)" />
+      <input
+        class="virtual-selector__input"
+        :placeholder="placeholder"
+        v-model="selected[option.itemNameKey]"
+        @keyup="handleKeyup"
+        @focus="handleFocus($event)"
+      />
       <i class="virtual-selector__arrow">
-        <svg viewBox="64 64 896 896"
-             data-icon="down"
-             width="1em"
-             height="1em"
-             fill="currentColor"
-             aria-hidden="true"
-             focusable="false"
-             class="">
+        <svg
+          viewBox="64 64 896 896"
+          data-icon="down"
+          width="1em"
+          height="1em"
+          fill="currentColor"
+          aria-hidden="true"
+          focusable="false"
+          class=""
+        >
           <path d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"></path>
         </svg>
       </i>
-      <div v-if="loading"
-           class="virtual-selector__loading">
+      <div
+        v-if="loading"
+        class="virtual-selector__loading"
+      >
         <slot></slot>
       </div>
-      <RecycleScroller v-if="flist.length > 0"
-                       class="virtual-selector__scroller virtual-selector__dropdown"
-                       :items="flist"
-                       :item-size="itemSize"
-                       :key-field="option.itemNameKey"
-                       v-slot="{ item }">
-        <div class="virtual-selector__dropdown-item"
-             :class="{
+      <RecycleScroller
+        v-if="flist.length > 0"
+        class="virtual-selector__scroller virtual-selector__dropdown"
+        :items="flist"
+        :item-size="itemSize"
+        :key-field="option.itemNameKey"
+        v-slot="{ item }"
+      >
+        <div
+          class="virtual-selector__dropdown-item"
+          :class="{
             'virtual-selector__dropdown-item--selected':
               item[option.itemValueKey] == selected[option.itemValueKey],
           }"
-             :title="item[option.itemNameKey]"
-             @click="handleSelect(item)">
+          :title="item[option.itemNameKey]"
+          @click="handleSelect(item)"
+        >
           {{ item[option.itemNameKey] }}
         </div>
       </RecycleScroller>
@@ -46,6 +60,8 @@
 </template>
 
 <script>
+import { RecycleScroller } from "vue-virtual-scroller";
+import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 import { debounce } from "./util";
 
 const defaultItemPageSize = 8;
@@ -54,6 +70,7 @@ const dropdownActiveClassName = "virtual-selector__input-wrapper--active";
 
 export default {
   name: "VirtualSelector",
+  components: { RecycleScroller },
   props: {
     loading: {
       type: Boolean,
