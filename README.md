@@ -46,7 +46,7 @@ or
 </virtual-selector>
 ```
 
-using all props, events and loading slot
+using all props, events and slots
 
 ```javascript
 <virtual-selector
@@ -58,7 +58,10 @@ using all props, events and loading slot
   @focus="handleFocus"
   @search="handleSearch"
   @select="handleSelect">
-  <div>loading...</div>
+  <div slot="loading">loading...</div>
+  <div slot="item" slot-scope="{ item }">
+    {{ item.name }}
+  </div>
 </virtual-selector>
 . . .
 <script>
@@ -129,16 +132,26 @@ In this example, "itemNameKey" of "listOption" is "name", "itemValueKey" of "lis
 - `search` : emitted when the input changed.
 - `select` : emitted when the dropdown item is selected.
 
-## Slot
+## Slots
 
-You can provide loading between `<virtual-selector></virtual-selector>`, like below
+You can set `loading` like below
 
 ```javascript
 <virtual-selector>
-  <div>loading...</div>
+  <div slot="loading">loading...</div>
 </virtual-selector>
 ```
 
 The display effect is as follows :
 
 ![loading](https://raw.githubusercontent.com/skayi/vue-virtual-selector/master/img/loading.jpg)
+
+Usually, we need to customize the selector dropdown item. for this purpose, there is `item` slot to use.
+
+```javascript
+<virtual-selector>
+  <div slot="item" slot-scope="{ item }">
+    {{ item.name }} ({{ item.value }})
+  </div>
+</virtual-selector>
+```

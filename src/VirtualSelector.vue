@@ -33,7 +33,7 @@
         v-if="loading"
         class="virtual-selector__loading"
       >
-        <slot></slot>
+        <slot name="loading"></slot>
       </div>
       <RecycleScroller
         v-if="flist.length > 0"
@@ -49,10 +49,14 @@
             'virtual-selector__dropdown-item--selected':
               item[option.itemValueKey] == selected[option.itemValueKey],
           }"
-          :title="item[option.itemNameKey]"
-          @click="handleSelect(item)"
+          @click="handleSelect($event, item)"
         >
-          {{ item[option.itemNameKey] }}
+          <slot
+            v-if="$scopedSlots.item"
+            name="item"
+            :item="item"
+          ></slot>
+          <slot v-else>{{ item[option.itemNameKey] }}</slot>
         </div>
       </RecycleScroller>
     </div>
@@ -74,16 +78,20 @@ export default {
   props: {
     loading: {
       type: Boolean,
+      default: false,
     },
     label: {
       type: String,
+      default: "",
     },
     placeholder: {
       type: String,
+      default: "",
     },
     list: {
       type: Array,
       required: true,
+      default: () => [],
     },
     /**
      * option: {
@@ -96,6 +104,7 @@ export default {
     option: {
       type: Object,
       required: true,
+      default: () => {},
     },
   },
   data() {
@@ -153,7 +162,8 @@ export default {
     handleKeyup: debounce(function () {
       const input = this.selected[this.option.itemNameKey];
 
-      this.selected[this.option.itemValueKey] = "";
+      this.option.itemNameKey !== this.option.itemValueKey &&
+        (this.selected[this.option.itemValueKey] = "");
 
       if (!input) {
         this.flist = [...this.list];
@@ -183,8 +193,13 @@ export default {
         event: e,
       });
     },
-    handleSelect(item) {
-      this.selected = { ...item };
+    handleSelect(e, item) {
+      this.selected = {
+        ...item,
+        [this.option.itemNameKey]: e.target.closest(
+          ".virtual-select__dropdown-item"
+        ).innerText,
+      };
 
       this.$emit("select", {
         id: this.vsId,
@@ -244,6 +259,7 @@ export default {
 
 .virtual-selector__input {
   display: block;
+  width: 100%;
   height: 32px;
   padding: 0 34px 0 11px;
   border: 1px solid #d9d9d9;
@@ -291,6 +307,7 @@ export default {
   height: 30px;
   line-height: 30px;
   font-size: 12px;
+  text-align: center;
   color: rgba(0, 0, 0, 0.65);
   background-color: #fff;
 }
