@@ -196,9 +196,7 @@ export default {
     handleSelect(e, item) {
       this.selected = {
         ...item,
-        [this.option.itemNameKey]: e.target.closest(
-          ".virtual-select__dropdown-item"
-        ).innerText,
+        [this.option.itemNameKey]: e.target.offsetParent.innerText,
       };
 
       this.$emit("select", {

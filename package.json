@@ -1,6 +1,6 @@
 {
   "name": "vue-virtual-selector",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Blazing fast scrolling for any amount of data (based on : Akryum/vue-virtual-scroller)",
   "main": "index.js",
   "scripts": {
