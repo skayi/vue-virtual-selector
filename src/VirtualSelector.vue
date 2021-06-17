@@ -13,8 +13,9 @@
         :placeholder="placeholder"
         v-model="selected[option.itemNameKey]"
         @keyup="handleKeyup"
-        @focus="handleFocus($event)"
         @input="handleInput"
+        @focus="handleFocus($event)"
+        @select="handleInputSelect($event)"
       />
       <i class="virtual-selector__arrow">
         <svg
@@ -50,7 +51,7 @@
             'virtual-selector__dropdown-item--selected':
               item[option.itemValueKey] == selected[option.itemValueKey],
           }"
-          @click="handleSelect($event, item)"
+          @click="handleItemSelect($event, item)"
         >
           <slot
             v-if="$scopedSlots.item"
@@ -202,14 +203,6 @@ export default {
         search: { [this.option.itemNameKey]: input },
       });
     }, 300),
-    handleFocus(e) {
-      e.target.offsetParent.classList.toggle(dropdownActiveClassName);
-
-      this.$emit("focus", {
-        id: this.vsId,
-        focus: { event: e },
-      });
-    },
     handleInput() {
       this.$emit("input", {
         id: this.vsId,
@@ -218,7 +211,18 @@ export default {
         },
       });
     },
-    handleSelect(e, item) {
+    handleFocus(e) {
+      e.target.offsetParent.classList.toggle(dropdownActiveClassName);
+
+      this.$emit("focus", {
+        id: this.vsId,
+        focus: { event: e },
+      });
+    },
+    handleInputSelect(e) {
+      e.target.offsetParent.classList.add(dropdownActiveClassName);
+    },
+    handleItemSelect(e, item) {
       this.selected = {
         ...item,
         [this.option.itemNameKey]: e.target.offsetParent.innerText,
