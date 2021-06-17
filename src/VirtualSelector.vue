@@ -194,7 +194,10 @@ export default {
             });
           }
 
-          return item[this.option.itemNameKey].toString().includes(input);
+          return item[this.option.itemNameKey]
+            .toString()
+            .toLowerCase()
+            .includes(input.toLowerCase());
         });
       }
 
