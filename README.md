@@ -87,9 +87,11 @@ export default {
       console.log("focus : ", { id, focus });
     },
     handleSearch( { id, search } ) {
+      this.selected = search;
       console.log("search : ", { id, search });
     },
     handleSelect( { id, select } ) {
+      this.selected = select;
       console.log("select : ", { id, select });
     },
   },
