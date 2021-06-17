@@ -46,7 +46,9 @@ or
 </virtual-selector>
 ```
 
-using all props, events and slots
+The `list` and `option` props are required.
+
+Using all props, events and slots as follows.
 
 ```javascript
 <virtual-selector
@@ -82,13 +84,13 @@ export default {
   },
   methods: {
     handleFocus( { id, focus } ) {
-      console.log("focus : ", focus);
+      console.log("focus : ", { id, focus });
     },
     handleSearch( { id, search } ) {
-      console.log("search : ", search);
+      console.log("search : ", { id, search });
     },
     handleSelect( { id, select } ) {
-      console.log("select : ", select);
+      console.log("select : ", { id, select });
     },
   },
 }
