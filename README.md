@@ -70,7 +70,7 @@ export default {
   data() {
     return {
       loading: false,
-	  selected: {},
+      selected: {},
       list: [],
       listOption: {
         itemNameKey: "name",
