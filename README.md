@@ -53,6 +53,7 @@ using all props, events and slots
   :loading="loading"
   label="virtual selector"
   placeholder="please select"
+  v-model="selected"
   :list="list"
   :option="listOption"
   @focus="handleFocus"
@@ -69,6 +70,7 @@ export default {
   data() {
     return {
       loading: false,
+	  selected: {},
       list: [],
       listOption: {
         itemNameKey: "name",
@@ -79,14 +81,14 @@ export default {
     };
   },
   methods: {
-    handleFocus(message) {
-      console.log("focus : ", message);
+    handleFocus( { id, focus } ) {
+      console.log("focus : ", focus);
     },
-    handleSearch(message) {
-      console.log("search : ", message);
+    handleSearch( { id, search } ) {
+      console.log("search : ", search);
     },
-    handleSelect(message) {
-      console.log("select : ", message);
+    handleSelect( { id, select } ) {
+      console.log("select : ", select);
     },
   },
 }
@@ -114,8 +116,15 @@ export default {
 
 In this example, "itemNameKey" of "listOption" is "name", "itemValueKey" of "listOption" is "value", which are specifing dropdown item display and value.
 
+If you want to select a value by default, `selected` data should be assigned like below
+
+```javascript
+this.selected = { name: "aaa", value: "1" };
+```
+
 ## Props
 
+- `v-model (Object)` : vue directive, to create two-way data bindings.
 - `list (Array)` : list of items display in the selector dropdown.
 - `label (String)` : when you want to show what the selector is, give this option.
 - `placeholder (String)` : input element's placeholder.
@@ -131,6 +140,8 @@ In this example, "itemNameKey" of "listOption" is "name", "itemValueKey" of "lis
 - `focus` : emitted when the input focused.
 - `search` : emitted when the input changed.
 - `select` : emitted when the dropdown item is selected.
+
+Every event callback function will get a emitted data, which is object type, contain component id and event data named with event name.
 
 ## Slots
 
@@ -154,4 +165,12 @@ Usually, we need to customize the selector dropdown item. for this purpose, ther
     {{ item.name }} ({{ item.value }})
   </div>
 </virtual-selector>
+```
+
+In this case, if you want to select a value by default, and display with the customize pattern, please complete this job at `selected` name (itemNameKey) property.
+
+For example, customized selector dropdown item like this "aaa (1)", "bbb (2)", "ccc (3)" (under the above list data example). the default setted value display should be like this.
+
+```javascript
+this.selected = { name: "aaa (1)", value: "1" };
 ```

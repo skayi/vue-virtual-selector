@@ -14,6 +14,7 @@
         v-model="selected[option.itemNameKey]"
         @keyup="handleKeyup"
         @focus="handleFocus($event)"
+        @input="handleInput"
       />
       <i class="virtual-selector__arrow">
         <svg
@@ -88,6 +89,9 @@ export default {
       type: String,
       default: "",
     },
+    value: {
+      type: Object,
+    },
     list: {
       type: Array,
       required: true,
@@ -143,6 +147,10 @@ export default {
       }
 
       this.flist = [...this.list];
+      this.selected = {
+        [this.option.itemNameKey]: this.value[this.option.itemNameKey],
+        [this.option.itemValueKey]: this.value[this.option.itemValueKey],
+      };
 
       this.$nextTick(() => {
         document
@@ -169,11 +177,18 @@ export default {
         this.flist = [...this.list];
       } else {
         this.flist = this.list.filter((item) => {
-          if (item[this.option.itemNameKey] === input) {
+          if (
+            item[this.option.itemNameKey].toLowerCase() === input.toLowerCase()
+          ) {
             this.selected[this.option.itemValueKey] =
               item[this.option.itemValueKey];
 
-            this.$emit("select", this.selected);
+            this.$nextTick(() => {
+              this.$emit("select", {
+                id: this.vsId,
+                select: { ...this.selected },
+              });
+            });
           }
 
           return item[this.option.itemNameKey].toString().includes(input);
@@ -182,7 +197,7 @@ export default {
 
       this.$emit("search", {
         id: this.vsId,
-        input,
+        search: { [this.option.itemNameKey]: input },
       });
     }, 300),
     handleFocus(e) {
@@ -190,7 +205,15 @@ export default {
 
       this.$emit("focus", {
         id: this.vsId,
-        event: e,
+        focus: { event: e },
+      });
+    },
+    handleInput() {
+      this.$emit("input", {
+        id: this.vsId,
+        input: {
+          [this.option.itemNameKey]: this.selected[this.option.itemNameKey],
+        },
       });
     },
     handleSelect(e, item) {
@@ -201,7 +224,7 @@ export default {
 
       this.$emit("select", {
         id: this.vsId,
-        select: this.selected,
+        select: { ...this.selected },
       });
     },
     handleGlobalClick(e) {
