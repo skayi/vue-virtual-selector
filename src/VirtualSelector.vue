@@ -91,6 +91,7 @@ export default {
     },
     value: {
       type: Object,
+      default: () => {},
     },
     list: {
       type: Array,
@@ -147,10 +148,11 @@ export default {
       }
 
       this.flist = [...this.list];
-      this.selected = {
-        [this.option.itemNameKey]: this.value[this.option.itemNameKey],
-        [this.option.itemValueKey]: this.value[this.option.itemValueKey],
-      };
+      this.value instanceof Object &&
+        (this.selected = {
+          [this.option.itemNameKey]: this.value[this.option.itemNameKey],
+          [this.option.itemValueKey]: this.value[this.option.itemValueKey],
+        });
 
       this.$nextTick(() => {
         document
