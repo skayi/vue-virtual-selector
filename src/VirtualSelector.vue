@@ -208,10 +208,7 @@ export default {
     }, 300),
     handleInput() {
       this.$emit("input", {
-        id: this.vsId,
-        input: {
-          [this.option.itemNameKey]: this.selected[this.option.itemNameKey],
-        },
+        [this.option.itemNameKey]: this.selected[this.option.itemNameKey],
       });
     },
     handleFocus(e) {
